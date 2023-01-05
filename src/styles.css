@@ -5,19 +5,80 @@ body {
 
     display: flex;
     flex-direction: column;
+
+    background-color: #001726;
     
 }
-div {
-    height: max-content;
+#body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    height: calc(100vh - 7rem);
+    padding: 1.5rem
+}
+
+h1 {
+    color:ghostwhite;
+    margin: 0px;
 }
 
 header {
+    display: flex;
+    flex-direction: row;
+
+    height: 3rem;
+    
+}
+
+#logo {
+    color: #BF5833;
+    font-size: 1.5rem;
+    padding-left: 3rem;
+
+    align-self: center;
+}
+
+#leftSideBar {
+    background-color: #00121e;
+    padding: 1.5rem;
+    width: 15rem;
+    border-radius: 0.5rem;
+}
+
+#bodyRightSideArea {
+    background-color: #00121e;
+    width: calc(100vw - 25rem);
+
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+
+#buttonArea {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     height: 10rem;
-    background-color: aqua;
+
+    color: #00121e;
+}
+
+.dasboardButton {
+    border: none;
+
+    text-align: left;
+    font-weight: 800;
+    font-size: 1.1rem;
+
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 
 footer {
-    height: 10rem;
-    background-color: aqua;
+    height: 4rem;
 }

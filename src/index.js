@@ -25,7 +25,3 @@ let aPost2 = new ToDoItem("MyTitle", "This is a description", "17/03/2023", "imp
 localTasklist.push(aPost2);
 
 let localProejct = new TaskProject("my cool project", localTasklist);
-
-localProejct.showMe();
-
-console.log(Date.now());
