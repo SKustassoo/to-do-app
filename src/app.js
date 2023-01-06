@@ -2,13 +2,14 @@ import {ToDoItem} from "./toDoItem.js";
 import {TaskProject} from "./taskProject.js";
 import {Manipulator} from "./manipulator.js";
 
+
 export class App {
+
+    activeProject = "";
 
     ALL_BUTTON = document.getElementById('allButton');
     TODAY_BUTTON = document.getElementById('todayButton');
     THIS_WEEK_BUTTON = document.getElementById('thisWeekButton');
-
-    PROEJCT_LIST = document.getElementById('projects');
 
     buildAppFrame() {
         let toDoTaskApp = new Manipulator();
@@ -18,41 +19,50 @@ export class App {
     setListening(){
         // to add new projects
         document.getElementById('addProject').addEventListener('click', () => { this.addProject(this.generateId())});
-
-        // to delete excisting projects
-        const allProjects = Array.from(document.getElementsByClassName('fa-xmark'));
-        allProjects.forEach(project => {
-            project.addEventListener('click', () => 
-                {this.removeProject(this.generateId());});
-        });
-
-
-
-      
+        document.getElementById('addTaskButton').addEventListener('click', () => { this.addTask(this.generateId(), "This is a task content", "17/03/2023", "activeProject")});
+ 
 
     }
     
-
     //id generator
     generateId() {
         return Date.now();
     };
 
-    // Project related functions
+    // create new project
     addProject(id) {
-        console.log("new project incoming: " + id);
-        let localManipulator = new Manipulator();
+        const localManipulator = new Manipulator();
         const newProject = localManipulator.createProject("DummyProject", id);
-        PROEJCT_LIST.appendChild(newProject);
+        document.getElementById('projects').prepend(newProject);
+        newProject.lastChild.addEventListener('click', () => {this.removeProject(id)});
+        newProject.addEventListener('click', () => {this.showProjectTasks(id)});
     };
 
+    // remove current project
     removeProject(id) {
-        console.log("I want this deleted" + id);
+        document.getElementById('projects').removeChild(document.getElementById(id));
     };
+
+    // show project related tasks
+    showProjectTasks(id) {
+        const projectTitle = document.getElementById(id).children[1].innerHTML;
+        document.getElementById('activeTaskTitle').innerHTML = projectTitle;
+        this.activeProject = id;
+    }
 
     // One task related functions
-    addTask() {};
+    addTask(id, content, date, project) {
+        const localManipulator = new Manipulator();
+        const newTask = localManipulator.createTask(id, content, date, project);
+
+        document.getElementById('tasksInProgress').prepend(newTask);
+        newTask.firstChild.addEventListener('click', () => {this.removeTask(id)});
+        //newTask.addEventListener('click', () => {this.showProjectTasks(id)});
+    };
+
     modifyTask(id) {};
-    removeTask(id) {};
+    removeTask(id) {
+        document.getElementById('tasksInProgress').removeChild(document.getElementById(id));
+    };
     
 }

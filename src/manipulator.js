@@ -61,11 +61,11 @@ export class Manipulator {
         // Left side bar project area
         const projectArea = document.createElement('div');
         projectArea.setAttribute('id','projects');
+
         const projectAreaTitle = document.createElement('h1');
         projectAreaTitle.innerHTML = "Projects";
-        projectArea.appendChild(projectAreaTitle);
-        projectArea.appendChild(this.createProject('My project',  this.generateId()));
-        projectArea.appendChild(this.createProject('My project2',  this.generateId()));
+        bodyLeftSideBar.appendChild(projectAreaTitle);
+
         projectArea.appendChild(this.createButton("Add new Project","addProject"));
         bodyLeftSideBar.appendChild(projectArea);
 
@@ -77,14 +77,15 @@ export class Manipulator {
         
 
         const localDiv = document.createElement('div');
-        localDiv.setAttribute('class', 'tasksInProgress');
+        localDiv.setAttribute('id', 'tasksInProgress');
 
         const taskAreaTitle = document.createElement('h1');
         taskAreaTitle.innerHTML = "Title";
+        taskAreaTitle.setAttribute('id', 'activeTaskTitle');
         bodyRightSideArea.appendChild(taskAreaTitle);
         bodyRightSideArea.appendChild(localDiv);
 
-        bodyRightSideArea.appendChild(this.createButton("Add new task"));
+        bodyRightSideArea.appendChild(this.createButton("Add new task","addTaskButton"));
 
 
 
@@ -108,16 +109,19 @@ export class Manipulator {
         return localButton;
     }
 
-    createTask(content, date, project) {
+    createTask(id, content, date, project) {
         const localTask = document.createElement('div');
         localTask.setAttribute('class', 'taskRow');
         localTask.classList.add('dp02');
         localTask.setAttribute('data', project);
+        localTask.setAttribute('id', id);
 
+        const iconDiv = document.createElement('div');
         const localIcon = document.createElement('i');
         localIcon.setAttribute('class','fa-regular');
         localIcon.classList.add('fa-circle');
-        localTask.appendChild(localIcon);
+        iconDiv.appendChild(localIcon);
+        localTask.appendChild(iconDiv);
 
         const localContent = document.createElement('p');
         localContent.innerHTML = content;
@@ -145,10 +149,13 @@ export class Manipulator {
         localContent.innerHTML = name;
         localProject.appendChild(localContent);
 
+        const closeDiv = document.createElement('div');
+        localProject.appendChild(closeDiv);
+
         const closeIcon = document.createElement('i');
         closeIcon.setAttribute('class','fa-solid');
         closeIcon.classList.add('fa-xmark');
-        localProject.appendChild(closeIcon);
+        closeDiv.appendChild(closeIcon);
 
         return localProject;
     }
