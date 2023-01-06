@@ -8,6 +8,8 @@ export class App {
     TODAY_BUTTON = document.getElementById('todayButton');
     THIS_WEEK_BUTTON = document.getElementById('thisWeekButton');
 
+    PROEJCT_LIST = document.getElementById('projects');
+
     buildAppFrame() {
         let toDoTaskApp = new Manipulator();
         toDoTaskApp.mainAppFrameBuilder();
@@ -38,7 +40,10 @@ export class App {
 
     // Project related functions
     addProject(id) {
-        console.log("new project incoming" + id);
+        console.log("new project incoming: " + id);
+        let localManipulator = new Manipulator();
+        const newProject = localManipulator.createProject("DummyProject", id);
+        PROEJCT_LIST.appendChild(newProject);
     };
 
     removeProject(id) {
