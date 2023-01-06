@@ -6,21 +6,29 @@ body {
     display: flex;
     flex-direction: column;
 
-    background-color: #001726;
+    background-color: #121212;
     
 }
+
+
+p {
+    margin: 0px;
+}
+
 #body {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
 
     height: calc(100vh - 7rem);
-    padding: 1.5rem
+
+    padding: 1.5rem 5rem;
 }
 
 h1 {
     color:ghostwhite;
     margin: 0px;
+    padding-bottom: 1rem;
 }
 
 header {
@@ -32,24 +40,27 @@ header {
 }
 
 #logo {
-    color: #BF5833;
+    color: #E65100;
     font-size: 1.5rem;
+    font-weight: bolder;
     padding-left: 3rem;
 
-    align-self: center;
+    align-self:flex-end;
 }
 
 #leftSideBar {
-    background-color: #00121e;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
     padding: 1.5rem;
     width: 15rem;
     border-radius: 0.5rem;
 }
 
 #bodyRightSideArea {
-    background-color: #00121e;
-    width: calc(100vw - 25rem);
-
+    width: 50vw;
     padding: 1.5rem;
     border-radius: 0.5rem;
 }
@@ -58,27 +69,193 @@ header {
 #buttonArea {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
     justify-content: space-between;
+    height: auto;
+    padding-bottom: 1.5rem;
 
-    height: 10rem;
-
-    color: #00121e;
 }
 
-.dasboardButton {
+
+#projects {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: space-between;
+    height: auto;
+    padding-bottom: 1.5rem;
+
+}
+
+.dashboardButton {
     border: none;
 
+    color: white;
     text-align: left;
     font-weight: 800;
-    font-size: 1.1rem;
+
 
     width: 100%;
-    padding: 10px 20px;
-    border-radius: 5px;
+    height: 40px;
+    padding: 10px 1.5rem;
+    border-radius: 20px;
     cursor: pointer;
 }
 
 
-footer {
-    height: 4rem;
+.tasksInProgress {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: space-between;
+    height: auto;
+    padding-bottom: 1.5rem;
+}
+
+.taskRow {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+
+    border: none;
+    color: white;
+    font-weight: 800;
+
+    padding: 10px 1rem;
+
+
+    width: auto;
+    height: auto;
+    border-radius: 20px;
+}
+
+.projectRow {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+
+    border: none;
+    color: white;
+    font-weight: 800;
+
+    padding: 10px 1rem;
+
+
+    width: auto;
+    height: auto;
+    border-radius: 20px;
+}
+
+.fa-circle:hover {
+    color:green;
+}
+
+.fa-xmark:hover {
+    color:#E65100;
+}
+/*----------------------------------------------------------------Materials ----------------------------------------------------------------*/
+
+
+.dp01 {
+	background-color: hsla(0, 100%, 100%, 0.05);
+	box-shadow:
+		/* offset-x | offset-y | blur-radius | spread-radius | color */
+		0px 1px 1px 0px hsla(0,0%,0%,0.14), 
+		0px 2px 1px -1px hsla(0,0%,0%,0.12), 
+		0px 1px 3px 0px hsla(0,0%,0%,0.2);
+}
+
+.dp02 {
+	background-color: hsla(0, 100%, 100%, 0.07);
+	box-shadow:
+	/* offset-x | offset-y | blur-radius | spread-radius | color */
+	0px 2px 2px 0px hsla(0,0%,0%,0.14), 
+	0px 3px 1px -2px hsla(0,0%,0%,0.12), 
+	0px 1px 5px 0px hsla(0,0%,0%,0.2);
+}
+
+button.dp02:hover {
+	background-color: hsla(0, 100%, 100%, 0.12);	
+	box-shadow:
+		/* offset-x | offset-y | blur-radius | spread-radius | color */
+		0px 8px 10px 1px hsla(0,0%,0%,0.14), 
+		0px 3px 14px 2px hsla(0,0%,0%,0.12), 
+		0px 5px 5px -3px hsla(0,0%,0%,0.2);
+
+}
+
+button.dp02:active {
+	background-color: hsla(0, 100%, 100%, 0.15);	
+	box-shadow:
+		/* offset-x | offset-y | blur-radius | spread-radius | color */
+		0px 16px 24px 2px hsla(0,0%,0%,0.14), 
+		0px 6px 30px 5px hsla(0,0%,0%,0.12), 
+		0px 8px 10px -5px hsla(0,0%,0%,0.2);
+}
+
+.dp03 {
+	background-color: hsla(0, 100%, 100%, 0.08);
+	box-shadow:
+		/* offset-x | offset-y | blur-radius | spread-radius | color */
+		0px 3px 4px 0px hsla(0,0%,0%,0.14), 
+		0px 3px 3px -2px hsla(0,0%,0%,0.12), 
+		0px 1px 8px 0px hsla(0,0%,0%,0.2);
+}
+
+.dp04 {
+	background-color: hsla(0, 100%, 100%, 0.09);	
+	box-shadow:
+		/* offset-x | offset-y | blur-radius | spread-radius | color */
+		0px 4px 5px 0px hsla(0,0%,0%,0.14), 
+		0px 1px 10px 0px hsla(0,0%,0%,0.12), 
+		0px 2px 4px -1px hsla(0,0%,0%,0.2);
+}
+
+.dp06 {
+	background-color: hsla(0, 100%, 100%, 0.11);	
+	box-shadow:
+		/* offset-x | offset-y | blur-radius | spread-radius | color */
+		0px 6px 10px 0px hsla(0,0%,0%,0.14), 
+		0px 1px 18px 0px hsla(0,0%,0%,0.12), 
+		0px 3px 5px -1px hsla(0,0%,0%,0.2);
+}
+
+.dp08 {
+	background-color: hsla(0, 100%, 100%, 0.12);	
+	box-shadow:
+		/* offset-x | offset-y | blur-radius | spread-radius | color */
+		0px 8px 10px 1px hsla(0,0%,0%,0.14), 
+		0px 3px 14px 2px hsla(0,0%,0%,0.12), 
+		0px 5px 5px -3px hsla(0,0%,0%,0.2);
+}
+
+.dp12 {
+	background-color: hsla(0, 100%, 100%, 0.14);	
+	box-shadow:
+		/* offset-x | offset-y | blur-radius | spread-radius | color */
+		0px 12px 17px 2px hsla(0,0%,0%,0.14), 
+		0px 5px 22px 4px hsla(0,0%,0%,0.12), 
+		0px 7px 8px -4px hsla(0,0%,0%,0.2);
+}
+
+.dp16 {
+	background-color: hsla(0, 100%, 100%, 0.15);	
+	box-shadow:
+		/* offset-x | offset-y | blur-radius | spread-radius | color */
+		0px 16px 24px 2px hsla(0,0%,0%,0.14), 
+		0px 6px 30px 5px hsla(0,0%,0%,0.12), 
+		0px 8px 10px -5px hsla(0,0%,0%,0.2);
+}
+
+.dp24 {
+	background-color: hsla(0, 100%, 100%, 0.16);	
+	box-shadow:
+		/* offset-x | offset-y | blur-radius | spread-radius | color */
+		0px 24px 38px 3px hsla(0,0%,0%,0.14), 
+		0px 9px 46px 8px hsla(0,0%,0%,0.12), 
+		0px 11px 15px -7px hsla(0,0%,0%,0.2);
 }
