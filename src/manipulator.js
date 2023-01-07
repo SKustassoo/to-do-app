@@ -159,5 +159,32 @@ export class Manipulator {
 
         return localProject;
     }
+
+
+    createProjectForm() {
+        const projectFormArea = document.createElement('div');
+        projectFormArea.setAttribute('class', 'projectFormArea');
+
+        const projectForm = document.createElement('form').setAttribute('id', 'projectForm');
+        const projectNameArea = document.createElement('input');
+        projectForm.appendChild(projectNameArea);
+
+        const projectAcceptButton = document.createElement('button');
+        projectAcceptButton.setAttribute('id', 'projectAcceptButton');
+
+        const projectCancelButton = document.createElement('button');
+        projectCancelButton.setAttribute('id', 'projectCancelButton');
+
+        projectFormArea.appendChild(projectForm);
+        projectFormArea.appendChild(projectAcceptButton);
+        projectFormArea.appendChild(projectCancelButton);
+
+        return projectFormArea;
+
+
+
+
+
+    }
 }
 

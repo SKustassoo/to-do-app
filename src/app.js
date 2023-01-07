@@ -18,7 +18,7 @@ export class App {
 
     setListening(){
         // to add new projects
-        document.getElementById('addProject').addEventListener('click', () => { this.addProject(this.generateId())});
+        document.getElementById('addProject').addEventListener('click', () => { this.projectform()});
         document.getElementById('addTaskButton').addEventListener('click', () => { this.addTask(this.generateId(), "This is a task content", "17/03/2023", "activeProject")});
  
 
@@ -28,6 +28,15 @@ export class App {
     generateId() {
         return Date.now();
     };
+
+
+    // Project form
+    projectform() {
+        console.log("We are builing a new project");
+
+        this.addProject(this.generateId());
+    }
+
 
     // create new project
     addProject(id) {
