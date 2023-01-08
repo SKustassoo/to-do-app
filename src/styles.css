@@ -159,6 +159,22 @@ header {
 .fa-xmark:hover {
     color:#E65100;
 }
+
+input {
+    width: 100%;
+}
+
+#projectAcceptButton {
+    width: auto;
+    color:green;
+    margin-right: 1rem;
+    margin-top: 1rem;
+}
+
+#projectCancelButton {
+    width: auto;
+    color:red;
+}
 /*----------------------------------------------------------------Materials ----------------------------------------------------------------*/
 
 

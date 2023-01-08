@@ -165,25 +165,21 @@ export class Manipulator {
         const projectFormArea = document.createElement('div');
         projectFormArea.setAttribute('class', 'projectFormArea');
 
-        const projectForm = document.createElement('form').setAttribute('id', 'projectForm');
+        const projectForm = document.createElement('form');
+        projectForm.setAttribute('id', 'projectForm');
         const projectNameArea = document.createElement('input');
         projectForm.appendChild(projectNameArea);
 
-        const projectAcceptButton = document.createElement('button');
-        projectAcceptButton.setAttribute('id', 'projectAcceptButton');
+        const acceptButton = this.createButton("Create new","projectAcceptButton");
+        const cancelButton = this.createButton("Cancel","projectCancelButton");
 
-        const projectCancelButton = document.createElement('button');
-        projectCancelButton.setAttribute('id', 'projectCancelButton');
+        projectForm.appendChild(acceptButton);
+        projectForm.appendChild(cancelButton);
 
         projectFormArea.appendChild(projectForm);
-        projectFormArea.appendChild(projectAcceptButton);
-        projectFormArea.appendChild(projectCancelButton);
+
 
         return projectFormArea;
-
-
-
-
 
     }
 }

@@ -18,7 +18,7 @@ export class App {
 
     setListening(){
         // to add new projects
-        document.getElementById('addProject').addEventListener('click', () => { this.projectform()});
+        document.getElementById('addProject').addEventListener('click', () => { this.projectForm()});
         document.getElementById('addTaskButton').addEventListener('click', () => { this.addTask(this.generateId(), "This is a task content", "17/03/2023", "activeProject")});
  
 
@@ -31,12 +31,25 @@ export class App {
 
 
     // Project form
-    projectform() {
+    projectForm() {
         console.log("We are builing a new project");
 
-        this.addProject(this.generateId());
-    }
+        let localAppForm = new Manipulator().createProjectForm();
+        //localAppForm;
 
+        console.log(localAppForm);
+
+        document.getElementById('projects').appendChild(localAppForm);
+
+        const acceptButton = document.getElementById('projectAcceptButton');
+
+        const cancelButton = document.getElementById('projectCancelButton');
+        cancelButton.addEventListener('click', () => {const acceptButton = document.getElementById('projectFormArea');
+        acceptButton.remove()});
+
+        //this.addProject(this.generateId());
+
+    }
 
     // create new project
     addProject(id) {
