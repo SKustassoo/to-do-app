@@ -22,12 +22,12 @@ export class App {
     setListening(){
         // to add new projects
         document.getElementById('addProject').addEventListener('click', () => { 
-            this.projectForm()
+            this.projectForm();
         });
 
         // add new task
         document.getElementById('addTaskButton').addEventListener('click', () => { 
-            this.addTask(this.generateId(), "This is a task content", "17/03/2023", this.activeProjectId)
+            this.taskForm();
         });
  
 
@@ -50,7 +50,7 @@ export class App {
 
 
         // accept button functionality
-        const acceptButton = document.getElementById('projectAcceptButton');
+        const acceptButton = document.getElementById('AcceptButton');
         acceptButton.addEventListener('click', (elem) => {
             const projectName = document.getElementById('projectForm').firstChild.value
             // add new project to the list
@@ -62,7 +62,7 @@ export class App {
 
 
         // cancel button functionality
-        const cancelButton = document.getElementById('projectCancelButton');
+        const cancelButton = document.getElementById('CancelButton');
         cancelButton.addEventListener('click', () => {
             document.getElementById('projectFormArea').remove();
         });
@@ -94,21 +94,55 @@ export class App {
 
     // show project related tasks
     showActiveProject(projectId, projectName) {
-        
-        const _activeTitle = document.getElementById('activeProjectTitle')
-
-        _activeTitle.innerHTML = projectName;
-        _activeTitle.dataset.activeprojectid = projectId;
 
         // update shown active project info 
-       //document.getElementById(projectId).children[0].innerHTML = projectName;
-       //document.getElementById(projectId).dataset.activeProjectId = projectId;
-
+        const _activeTitle = document.getElementById('activeProjectTitle')
+        _activeTitle.innerHTML = projectName;
+        _activeTitle.dataset.activeprojectid = projectId;
 
         // set active project info
         this.activeProjectTitle = projectName;
         this.activeProjectId = projectId;
     }
+
+
+
+
+
+
+    // to show add new task form
+    taskForm() {
+
+        console.log("We are builing a new task");
+
+        // Build new form from manipulator
+        let _localAppForm = new Manipulator().createTaskForm();
+        document.getElementById('tasksInProgress').appendChild(_localAppForm);
+
+
+        // accept button functionality
+        const acceptButton = document.getElementById('AcceptButton');
+
+        acceptButton.addEventListener('click', (elem) => {
+            const taskContent = document.getElementById('taskForm').firstChild.value
+            // add new project to the list
+            this.addTask(this.generateId(), taskContent, "17/04/2023",  this.activeProjectId);
+            // remove form from gui
+            document.getElementById('taskFormArea').remove();
+        });
+
+       // this.addTask(this.generateId(), "This is a task content", "17/03/2023", this.activeProjectId)
+
+        // cancel button functionality
+        //const cancelButton = document.getElementById('taskCancelButton');
+        // cancelButton.addEventListener('click', () => {
+           // document.getElementById('taskFormArea').remove();
+        // });
+
+    }
+
+
+
 
     // One task related functions
     addTask(id, content, date, project) {

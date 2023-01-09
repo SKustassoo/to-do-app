@@ -161,14 +161,14 @@ header {
 }
 
 input {
-    width: 100%;
+    width: calc(100% - 1.2rem);
     border-radius: 0.3rem;
     border: none;
-    padding-left: 0.2rem;
+    padding: 0.3rem 0.6rem;
 }
 
 
-#projectAcceptButton {
+#AcceptButton {
     font-size: 0.7rem;
     width: auto;
     color:green;
@@ -177,7 +177,7 @@ input {
     padding: 10px 1.2rem;
 }
 
-#projectCancelButton {
+#CancelButton {
     width: auto;
     color:red;
     font-size: 0.7rem;
@@ -190,6 +190,8 @@ input {
     border-radius: 0.5rem;
 
 }
+
+
 /*----------------------------------------------------------------Materials ----------------------------------------------------------------*/
 
 

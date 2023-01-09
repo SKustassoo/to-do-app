@@ -169,8 +169,8 @@ export class Manipulator {
         const projectNameArea = document.createElement('input');
         projectForm.appendChild(projectNameArea);
 
-        const acceptButton = this.createButton("Create new","projectAcceptButton");
-        const cancelButton = this.createButton("Cancel","projectCancelButton");
+        const acceptButton = this.createButton("Create new", "AcceptButton");
+        const cancelButton = this.createButton("Cancel","CancelButton");
 
         projectForm.appendChild(acceptButton);
         projectForm.appendChild(cancelButton);
@@ -181,5 +181,31 @@ export class Manipulator {
         return projectFormArea;
 
     }
+    
+    createTaskForm() {
+        const taskFormArea = document.createElement('div');
+        taskFormArea.setAttribute('class', 'taskFormArea');
+        taskFormArea.setAttribute('id', 'taskFormArea');
+        taskFormArea.classList.add('dp02');
+        taskFormArea.classList.add('formCard');
+
+        const taskForm = document.createElement('form');
+        taskForm.setAttribute('id', 'taskForm');
+        const taskNameArea = document.createElement('input');
+        taskForm.appendChild(taskNameArea);
+
+        const acceptButton = this.createButton("Create new","AcceptButton");
+        const cancelButton = this.createButton("Cancel","CancelButton");
+
+        taskForm.appendChild(acceptButton);
+        taskForm.appendChild(cancelButton);
+
+        taskFormArea.appendChild(taskForm);
+
+
+        return taskFormArea;
+
+    }
+
 }
 
