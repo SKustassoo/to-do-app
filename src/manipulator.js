@@ -2,7 +2,7 @@
 
 export class Manipulator {
 
-    mainAppFrameBuilder(activeProject) {
+    mainAppFrameBuilder(activeProjectTitle, activeProjectId) {
         // get body for app layout 
         let mainAppLayout = document.body;
         
@@ -10,7 +10,7 @@ export class Manipulator {
         mainAppLayout.appendChild(this.createAppHeader());
 
         // create body for app layout
-        mainAppLayout.appendChild(this.createAppBody(activeProject));
+        mainAppLayout.appendChild(this.createAppBody(activeProjectTitle, activeProjectId));
 
        return mainAppLayout;
     }
@@ -34,7 +34,7 @@ export class Manipulator {
         return Date.now();
     };
 
-    createAppBody(activeProject) {
+    createAppBody(activeProjectTitle, activeProjectId) {
         let appBody = document.createElement('div');
         appBody.setAttribute('id','body');
 
@@ -80,8 +80,9 @@ export class Manipulator {
         localDiv.setAttribute('id', 'tasksInProgress');
 
         const taskAreaTitle = document.createElement('h1');
-        taskAreaTitle.innerHTML = activeProject;
-        taskAreaTitle.setAttribute('id', 'activeTaskTitle');
+        taskAreaTitle.innerHTML = activeProjectTitle;
+        taskAreaTitle.setAttribute('data-activeProjectId', activeProjectId);
+        taskAreaTitle.setAttribute('id', "activeProjectTitle");
         bodyRightSideArea.appendChild(taskAreaTitle);
         bodyRightSideArea.appendChild(localDiv);
 
@@ -113,7 +114,7 @@ export class Manipulator {
         const localTask = document.createElement('div');
         localTask.setAttribute('class', 'taskRow');
         localTask.classList.add('dp02');
-        localTask.setAttribute('data', project);
+        localTask.setAttribute('data-project', project);
         localTask.setAttribute('id', id);
 
         const iconDiv = document.createElement('div');
@@ -139,11 +140,6 @@ export class Manipulator {
         localProject.setAttribute('class', 'projectRow');
         localProject.classList.add('dp02');
         localProject.setAttribute('id', id);
-
-        const localIcon = document.createElement('i');
-        localIcon.setAttribute('class','fa-solid');
-        localIcon.classList.add('fa-diagram-project');
-        localProject.appendChild(localIcon);
 
         const localContent = document.createElement('p');
         localContent.innerHTML = name;

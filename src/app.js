@@ -5,7 +5,9 @@ import {Manipulator} from "./manipulator.js";
 
 export class App {
 
-    activeProject = "Empty";
+    activeProjectTitle = "My list";
+    activeProjectId = "";
+    activeProjectId = this.generateId();
 
     ALL_BUTTON = document.getElementById('allButton');
     TODAY_BUTTON = document.getElementById('todayButton');
@@ -13,13 +15,20 @@ export class App {
 
     buildAppFrame() {
         let toDoTaskApp = new Manipulator();
-        toDoTaskApp.mainAppFrameBuilder(this.activeProject);
+        toDoTaskApp.mainAppFrameBuilder(this.activeProjectTitle, this.activeProjectId);
+        this.addProject(this.activeProjectTitle, this.activeProjectId);
     };
 
     setListening(){
         // to add new projects
-        document.getElementById('addProject').addEventListener('click', () => { this.projectForm()});
-        document.getElementById('addTaskButton').addEventListener('click', () => { this.addTask(this.generateId(), "This is a task content", "17/03/2023", "activeProject")});
+        document.getElementById('addProject').addEventListener('click', () => { 
+            this.projectForm()
+        });
+
+        // add new task
+        document.getElementById('addTaskButton').addEventListener('click', () => { 
+            this.addTask(this.generateId(), "This is a task content", "17/03/2023", this.activeProjectId)
+        });
  
 
     }
@@ -66,8 +75,15 @@ export class App {
         const newProject = localManipulator.createProject(name, id);
 
         document.getElementById('projects').prepend(newProject);
-        newProject.lastChild.addEventListener('click', () => {this.removeProject(id)});
-        newProject.addEventListener('click', () => {this.showProjectTasks(id)});
+        newProject.lastChild.addEventListener('click', () => {
+            this.removeProject(id);
+            if (id == activeProjectId) {
+                activeProjectTitle = "";
+                activeProjectId = "";
+            }
+
+        });
+        newProject.addEventListener('click', () => {this.showActiveProject(id, name)});
     };
 
 
@@ -77,10 +93,21 @@ export class App {
     };
 
     // show project related tasks
-    showProjectTasks(id) {
-        const projectTitle = document.getElementById(id).children[1].innerHTML;
-        document.getElementById('activeTaskTitle').innerHTML = projectTitle;
-        this.activeProject = id;
+    showActiveProject(projectId, projectName) {
+        
+        const _activeTitle = document.getElementById('activeProjectTitle')
+
+        _activeTitle.innerHTML = projectName;
+        _activeTitle.dataset.activeprojectid = projectId;
+
+        // update shown active project info 
+       //document.getElementById(projectId).children[0].innerHTML = projectName;
+       //document.getElementById(projectId).dataset.activeProjectId = projectId;
+
+
+        // set active project info
+        this.activeProjectTitle = projectName;
+        this.activeProjectId = projectId;
     }
 
     // One task related functions
