@@ -162,18 +162,33 @@ header {
 
 input {
     width: 100%;
+    border-radius: 0.3rem;
+    border: none;
+    padding-left: 0.2rem;
 }
 
+
 #projectAcceptButton {
+    font-size: 0.7rem;
     width: auto;
     color:green;
     margin-right: 1rem;
     margin-top: 1rem;
+    padding: 10px 1.2rem;
 }
 
 #projectCancelButton {
     width: auto;
     color:red;
+    font-size: 0.7rem;
+    padding: 10px 1.2rem;
+}
+
+
+.formCard {
+    padding: 1rem;
+    border-radius: 0.5rem;
+
 }
 /*----------------------------------------------------------------Materials ----------------------------------------------------------------*/
 

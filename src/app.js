@@ -5,7 +5,7 @@ import {Manipulator} from "./manipulator.js";
 
 export class App {
 
-    activeProject = "";
+    activeProject = "Empty";
 
     ALL_BUTTON = document.getElementById('allButton');
     TODAY_BUTTON = document.getElementById('todayButton');
@@ -13,7 +13,7 @@ export class App {
 
     buildAppFrame() {
         let toDoTaskApp = new Manipulator();
-        toDoTaskApp.mainAppFrameBuilder();
+        toDoTaskApp.mainAppFrameBuilder(this.activeProject);
     };
 
     setListening(){
@@ -32,33 +32,44 @@ export class App {
 
     // Project form
     projectForm() {
+
         console.log("We are builing a new project");
 
+        // Build new form from manipulator
         let localAppForm = new Manipulator().createProjectForm();
-        //localAppForm;
-
-        console.log(localAppForm);
-
         document.getElementById('projects').appendChild(localAppForm);
 
+
+        // accept button functionality
         const acceptButton = document.getElementById('projectAcceptButton');
+        acceptButton.addEventListener('click', (elem) => {
+            const projectName = document.getElementById('projectForm').firstChild.value
+            // add new project to the list
+            this.addProject(projectName, this.generateId());
+            // remove form from gui
+            document.getElementById('projectFormArea').remove();
+   
+        });
 
+
+        // cancel button functionality
         const cancelButton = document.getElementById('projectCancelButton');
-        cancelButton.addEventListener('click', () => {const acceptButton = document.getElementById('projectFormArea');
-        acceptButton.remove()});
-
-        //this.addProject(this.generateId());
+        cancelButton.addEventListener('click', () => {
+            document.getElementById('projectFormArea').remove();
+        });
 
     }
 
     // create new project
-    addProject(id) {
+    addProject(name, id) {
         const localManipulator = new Manipulator();
-        const newProject = localManipulator.createProject("DummyProject", id);
+        const newProject = localManipulator.createProject(name, id);
+
         document.getElementById('projects').prepend(newProject);
         newProject.lastChild.addEventListener('click', () => {this.removeProject(id)});
         newProject.addEventListener('click', () => {this.showProjectTasks(id)});
     };
+
 
     // remove current project
     removeProject(id) {

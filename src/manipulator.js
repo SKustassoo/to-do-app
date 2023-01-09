@@ -2,7 +2,7 @@
 
 export class Manipulator {
 
-    mainAppFrameBuilder() {
+    mainAppFrameBuilder(activeProject) {
         // get body for app layout 
         let mainAppLayout = document.body;
         
@@ -10,7 +10,7 @@ export class Manipulator {
         mainAppLayout.appendChild(this.createAppHeader());
 
         // create body for app layout
-        mainAppLayout.appendChild(this.createAppBody());
+        mainAppLayout.appendChild(this.createAppBody(activeProject));
 
        return mainAppLayout;
     }
@@ -34,7 +34,7 @@ export class Manipulator {
         return Date.now();
     };
 
-    createAppBody() {
+    createAppBody(activeProject) {
         let appBody = document.createElement('div');
         appBody.setAttribute('id','body');
 
@@ -80,7 +80,7 @@ export class Manipulator {
         localDiv.setAttribute('id', 'tasksInProgress');
 
         const taskAreaTitle = document.createElement('h1');
-        taskAreaTitle.innerHTML = "Title";
+        taskAreaTitle.innerHTML = activeProject;
         taskAreaTitle.setAttribute('id', 'activeTaskTitle');
         bodyRightSideArea.appendChild(taskAreaTitle);
         bodyRightSideArea.appendChild(localDiv);
@@ -164,6 +164,9 @@ export class Manipulator {
     createProjectForm() {
         const projectFormArea = document.createElement('div');
         projectFormArea.setAttribute('class', 'projectFormArea');
+        projectFormArea.setAttribute('id', 'projectFormArea');
+        projectFormArea.classList.add('dp02');
+        projectFormArea.classList.add('formCard');
 
         const projectForm = document.createElement('form');
         projectForm.setAttribute('id', 'projectForm');
