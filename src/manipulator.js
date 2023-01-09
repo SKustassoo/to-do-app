@@ -1,5 +1,3 @@
-
-
 export class Manipulator {
 
     mainAppFrameBuilder(activeProjectTitle, activeProjectId) {
@@ -24,7 +22,6 @@ export class Manipulator {
         headerLogo.innerHTML = 'NewTodo';
 
         appHeader.appendChild(headerLogo);
-
 
         return appHeader;
     }
@@ -88,18 +85,14 @@ export class Manipulator {
 
         bodyRightSideArea.appendChild(this.createButton("Add new task","addTaskButton"));
 
-
-
-
-
-        // Append final elements
+        // Append both side elements elements
         appBody.appendChild(bodyLeftSideBar);
         appBody.appendChild(bodyRightSideArea);
-
 
         return appBody;
     }
 
+    // button factory function
     createButton(name, id) {
         const localButton = document.createElement('button');
         localButton.setAttribute('class','dashboardButton');
@@ -110,6 +103,7 @@ export class Manipulator {
         return localButton;
     }
 
+    // task factory function
     createTask(id, content, date, project) {
         const localTask = document.createElement('div');
         localTask.setAttribute('class', 'taskRow');
@@ -135,6 +129,7 @@ export class Manipulator {
         return localTask;
     }
 
+    // project factory function
     createProject(name, id) {
         const localProject = document.createElement('div');
         localProject.setAttribute('class', 'projectRow');
@@ -156,7 +151,7 @@ export class Manipulator {
         return localProject;
     }
 
-
+    // form temaplate for adding new projects
     createProjectForm() {
         const projectFormArea = document.createElement('div');
         projectFormArea.setAttribute('class', 'projectFormArea');
@@ -174,14 +169,13 @@ export class Manipulator {
 
         projectForm.appendChild(acceptButton);
         projectForm.appendChild(cancelButton);
-
         projectFormArea.appendChild(projectForm);
-
 
         return projectFormArea;
 
     }
-    
+
+    // task temaplate for adding new projects
     createTaskForm() {
         const taskFormArea = document.createElement('div');
         taskFormArea.setAttribute('class', 'taskFormArea');
@@ -202,10 +196,11 @@ export class Manipulator {
 
         taskFormArea.appendChild(taskForm);
 
-
         return taskFormArea;
 
     }
+
+
 
 }
 

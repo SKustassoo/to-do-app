@@ -1,7 +1,4 @@
-import {ToDoItem} from "./toDoItem.js";
-import {TaskProject} from "./taskProject.js";
 import {App} from "./app.js";
-import {Manipulator} from "./manipulator.js";
 import "./styles.css";
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'

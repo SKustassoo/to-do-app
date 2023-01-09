@@ -1,5 +1,4 @@
-import {ToDoItem} from "./toDoItem.js";
-import {TaskProject} from "./taskProject.js";
+
 import {Manipulator} from "./manipulator.js";
 
 
@@ -7,19 +6,19 @@ export class App {
 
     activeProjectTitle = "My list";
     activeProjectId = "";
-    activeProjectId = this.generateId();
-
-    ALL_BUTTON = document.getElementById('allButton');
-    TODAY_BUTTON = document.getElementById('todayButton');
-    THIS_WEEK_BUTTON = document.getElementById('thisWeekButton');
+    
 
     buildAppFrame() {
         let toDoTaskApp = new Manipulator();
+        this.activeProjectId = this.generateId();
         toDoTaskApp.mainAppFrameBuilder(this.activeProjectTitle, this.activeProjectId);
         this.addProject(this.activeProjectTitle, this.activeProjectId);
     };
+    
 
+    // set event listeners after initial build
     setListening(){
+
         // to add new projects
         document.getElementById('addProject').addEventListener('click', () => { 
             this.projectForm();
@@ -30,24 +29,21 @@ export class App {
             this.taskForm();
         });
  
-
     }
     
+
     //id generator
     generateId() {
         return Date.now();
     };
 
 
-    // Project form
+    // Project form building template
     projectForm() {
-
-        console.log("We are builing a new project");
 
         // Build new form from manipulator
         let localAppForm = new Manipulator().createProjectForm();
         document.getElementById('projects').appendChild(localAppForm);
-
 
         // accept button functionality
         const acceptButton = document.getElementById('AcceptButton');
@@ -57,9 +53,7 @@ export class App {
             this.addProject(projectName, this.generateId());
             // remove form from gui
             document.getElementById('projectFormArea').remove();
-   
         });
-
 
         // cancel button functionality
         const cancelButton = document.getElementById('CancelButton');
@@ -69,11 +63,14 @@ export class App {
 
     }
 
+
     // create new project
     addProject(name, id) {
+        // new project DOM element
         const localManipulator = new Manipulator();
         const newProject = localManipulator.createProject(name, id);
 
+        // new 
         document.getElementById('projects').prepend(newProject);
         newProject.lastChild.addEventListener('click', () => {
             this.removeProject(id);
@@ -92,6 +89,7 @@ export class App {
         document.getElementById('projects').removeChild(document.getElementById(id));
     };
 
+
     // show project related tasks
     showActiveProject(projectId, projectName) {
 
@@ -104,10 +102,6 @@ export class App {
         this.activeProjectTitle = projectName;
         this.activeProjectId = projectId;
     }
-
-
-
-
 
 
     // to show add new task form
@@ -131,17 +125,7 @@ export class App {
             document.getElementById('taskFormArea').remove();
         });
 
-       // this.addTask(this.generateId(), "This is a task content", "17/03/2023", this.activeProjectId)
-
-        // cancel button functionality
-        //const cancelButton = document.getElementById('taskCancelButton');
-        // cancelButton.addEventListener('click', () => {
-           // document.getElementById('taskFormArea').remove();
-        // });
-
     }
-
-
 
 
     // One task related functions
