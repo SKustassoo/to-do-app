@@ -160,8 +160,17 @@ export class App {
         const newTask = localManipulator.createTask(id, content, date, project);
 
         document.getElementById('tasksInProgress').prepend(newTask);
-        newTask.firstChild.addEventListener('click', () => {this.removeTask(id)});
+        newTask.firstChild.addEventListener('click', () => {
+            // remove the task from gui
+            this.removeTask(id);
 
+            // remove task from the taskList
+
+
+
+        });
+
+        // push the new task into the taskList
         const _taskInfo = {id, content, date, project};
         this.taskList.push(_taskInfo);
     };
