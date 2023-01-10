@@ -77,7 +77,7 @@ export class App {
     showProejctRelatedTasks(projectId) {
 
         console.log('read project related tasks from the taskList and show them');
-        console.log(this.taskList);
+        //console.log(this.taskList);
     };
 
 
@@ -161,18 +161,39 @@ export class App {
 
         document.getElementById('tasksInProgress').prepend(newTask);
         newTask.firstChild.addEventListener('click', () => {
-            // remove the task from gui
+            // remove the task
             this.removeTask(id);
-
-            // remove task from the taskList
-
-
-
         });
 
         // push the new task into the taskList
         const _taskInfo = {id, content, date, project};
         this.taskList.push(_taskInfo);
+
+    };
+
+
+    removeTask(id) {
+        console.log('array before removing: ' + this.taskList);
+        // remove task from the taskList
+        for (let task = 0; task < this.taskList.length; ++task) {
+            if (this.taskList[task].id == id) {
+                this.taskList.splice(this.taskList.indexOf(this.taskList[task]), 1)
+            };
+
+        };
+        console.log('array after removing: ' + this.taskList);
+
+        // gui
+        document.getElementById('tasksInProgress').removeChild(document.getElementById(id));
+        
+    };
+
+
+    removeTaskFromList(id) {
+        if (tasklist.id === id) {
+            tasklist[task].remove();
+        };
     };
     
 }
+
