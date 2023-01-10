@@ -75,9 +75,17 @@ export class App {
 
     // show project related tasks only
     showProejctRelatedTasks(projectId) {
+        document.getElementById('tasksInProgress').innerHTML = "";
 
         console.log('read project related tasks from the taskList and show them');
         //console.log(this.taskList);
+
+        for (let task = 0; task < this.taskList.length; ++task) {
+            if (this.taskList[task].project == projectId) {
+                this.addTask(this.taskList[task].id, this.taskList[task].content , this.taskList[task].date , this.taskList[task].project );
+                
+            };
+        };
     };
 
 
@@ -173,26 +181,16 @@ export class App {
 
 
     removeTask(id) {
-        console.log('array before removing: ' + this.taskList);
         // remove task from the taskList
         for (let task = 0; task < this.taskList.length; ++task) {
             if (this.taskList[task].id == id) {
                 this.taskList.splice(this.taskList.indexOf(this.taskList[task]), 1)
             };
-
         };
-        console.log('array after removing: ' + this.taskList);
 
-        // gui
+        // remove task dfrom the gui
         document.getElementById('tasksInProgress').removeChild(document.getElementById(id));
         
-    };
-
-
-    removeTaskFromList(id) {
-        if (tasklist.id === id) {
-            tasklist[task].remove();
-        };
     };
     
 }
