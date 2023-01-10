@@ -6,11 +6,13 @@ export class App {
 
     activeProjectTitle = "My list";
     activeProjectId = "";
+    taskList = [];
     
 
     buildAppFrame() {
         let toDoTaskApp = new Manipulator();
         this.activeProjectId = this.generateId();
+
         toDoTaskApp.mainAppFrameBuilder(this.activeProjectTitle, this.activeProjectId);
         this.addProject(this.activeProjectTitle, this.activeProjectId);
     };
@@ -48,20 +50,35 @@ export class App {
         // accept button functionality
         const acceptButton = document.getElementById('AcceptButton');
         acceptButton.addEventListener('click', (elem) => {
+
+            // get the project title element from dom
             const projectName = document.getElementById('projectForm').firstChild.value
+
             // add new project to the list
             this.addProject(projectName, this.generateId());
+
             // remove form from gui
             document.getElementById('projectFormArea').remove();
+
         });
 
         // cancel button functionality
         const cancelButton = document.getElementById('CancelButton');
         cancelButton.addEventListener('click', () => {
             document.getElementById('projectFormArea').remove();
+
+
+
         });
 
     }
+
+    // show project related tasks only
+    showProejctRelatedTasks(projectId) {
+
+        console.log('read project related tasks from the taskList and show them');
+        console.log(this.taskList);
+    };
 
 
     // create new project
@@ -80,7 +97,16 @@ export class App {
             }
 
         });
-        newProject.addEventListener('click', () => {this.showActiveProject(id, name)});
+        newProject.addEventListener('click', () => {
+
+            // show the active prject name and id on the active tasks header
+            this.showActiveProject(id, name);
+
+
+            // filter tasks by project id and show only related projects
+            this.showProejctRelatedTasks(id);
+
+        });
     };
 
 
@@ -128,19 +154,16 @@ export class App {
     }
 
 
-    // One task related functions
+    // add new task to the list
     addTask(id, content, date, project) {
         const localManipulator = new Manipulator();
         const newTask = localManipulator.createTask(id, content, date, project);
 
         document.getElementById('tasksInProgress').prepend(newTask);
         newTask.firstChild.addEventListener('click', () => {this.removeTask(id)});
-        //newTask.addEventListener('click', () => {this.showProjectTasks(id)});
-    };
 
-    modifyTask(id) {};
-    removeTask(id) {
-        document.getElementById('tasksInProgress').removeChild(document.getElementById(id));
+        const _taskInfo = {id, content, date, project};
+        this.taskList.push(_taskInfo);
     };
     
 }
