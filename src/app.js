@@ -30,6 +30,20 @@ export class App {
         document.getElementById('addTaskButton').addEventListener('click', () => { 
             this.taskForm();
         });
+
+
+        // show all tasks
+        document.getElementById('allButton').addEventListener('click', () => { 
+            this.showAllTasks();
+        });
+
+        // show today tasks
+        document.getElementById('todayButton').addEventListener('click', () => { 
+            this.showTodayTasks();
+        });
+
+
+        
  
     }
     
@@ -88,6 +102,48 @@ export class App {
     };
 
 
+    showAllTasks(){
+        console.log("showing all tasks");
+        document.getElementById('tasksInProgress').innerHTML = "";
+
+        for (let task = 0; task < this.taskList.length; ++task) {
+                this.addTask(this.taskList[task].id, this.taskList[task].content, this.taskList[task].date , this.taskList[task].project );
+        };
+    };
+
+    showTodayTasks(){
+        document.getElementById('tasksInProgress').innerHTML = "";
+        console.log('show tasks wehre date is today');
+
+        const timeElapsed = Date.now();
+
+        let today = "";
+        let day = new Date(timeElapsed).getDate();
+        let month = new Date(timeElapsed).getMonth()+1; 
+        const year = new Date(timeElapsed).getFullYear();
+
+        if (String(month).length == 1) {
+            month = "0"+month
+        }
+
+        if (String(day).length == 1) {
+            day = "0"+day
+        }
+
+        today = year+"-"+month+"-"+day;
+
+        console.log(today);
+
+        for (let task = 0; task < this.taskList.length; ++task) {
+            if (this.taskList[task].date == today) {
+                this.addTask(this.taskList[task].id, this.taskList[task].content, this.taskList[task].date , this.taskList[task].project );
+                
+            };
+        };
+
+    }
+
+
     // create new project
     addProject(name, id) {
         // new project DOM element
@@ -108,7 +164,6 @@ export class App {
 
             // show the active prject name and id on the active tasks header
             this.showActiveProject(id, name);
-
 
             // filter tasks by project id and show only related projects
             this.showProejctRelatedTasks(id);
