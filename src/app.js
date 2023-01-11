@@ -1,23 +1,62 @@
 
 import {Manipulator} from "./manipulator.js";
+import {LocalStorageManipulator} from "./localStorage.js";
 
 
 export class App {
 
-    activeProjectTitle = "My list";
+    activeProjectTitle = "";
     activeProjectId = "";
     taskList = [];
+    projectList = [];
     
 
     // builds orignal app layout
     buildAppFrame() {
+
+        this.useLocalStorage();
         let toDoTaskApp = new Manipulator();
-        this.activeProjectId = this.generateId();
 
         // adds default project into the main app layout
-        toDoTaskApp.mainAppFrameBuilder(this.activeProjectTitle, this.activeProjectId);
-        this.addProject(this.activeProjectTitle, this.activeProjectId);
+        toDoTaskApp.mainAppFrameBuilder(localStorage.getItem('activeProjectTitle'), localStorage.getItem('activeProjectId'));
+        this.addProject(localStorage.getItem('activeProjectTitle'), localStorage.getItem('activeProjectId'));
     };
+
+    
+    useLocalStorage() {
+        let appLocalStorage = new LocalStorageManipulator();
+
+        if (appLocalStorage.storageAvailable('localStorage')) {
+
+            // search local storage for active project id and set it if available
+            if (!localStorage.getItem('activeProjectId')) {
+                localStorage.setItem('activeProjectId', this.generateId());
+                //localStorage.getItem('activeProjectId');
+            } else {
+                //localStorage.getItem('activeProjectId');
+            };
+
+            // search local storage for active project title and set it if available
+            if (!localStorage.getItem('activeProjectTitle')) {
+                localStorage.setItem('activeProjectTitle', "My list");
+                //localStorage.getItem('activeProjectTitle');
+            } else {
+                //localStorage.getItem('activeProjectTitle');
+            };
+
+            // search local storage for projects
+            if (!localStorage.getItem('projectList')) {
+                this.addProjectToArray(localStorage.getItem('activeProjectId'),localStorage.getItem('activeProjectTitle') )
+                localStorage.setItem('projectList', JSON.stringify(this.projectList));
+                //localStorage.getItem('activeProjectTitle');
+            } else {
+                //localStorage.getItem('activeProjectTitle');
+            };
+
+        } else {
+            console.log("cant use local storage");
+        };
+    }
     
 
     // set event listeners after initial build
@@ -93,7 +132,94 @@ export class App {
             document.getElementById('projectFormArea').remove();
         });
 
+        // remove the project from the storage list
+        this.getProejctFromProjectArray(this.readProejctsFromArray(), _projectId);
+
     }
+
+    // add new task to the list
+    addProjectToArray(projectId, projectName) {
+        const _projectInfo = {projectId, projectName};
+        this.projectList.push(_projectInfo);
+
+        localStorage.setItem('projectList', JSON.stringify(this.projectList));
+    };
+
+    readProejctsFromArray() {
+        // Retrieve the array from local storage
+        var _array = localStorage.getItem('projectList');
+        // Parse it to something usable in js
+        return JSON.parse(_array);
+    };
+
+    getProejctFromProjectArray(projectArray, projectId) {
+        // loop trough the app projects array and returned project object
+        for (let project = 0; project < projectArray.length; ++project) {
+            if (projectArray[project].id == projectId) {
+                return projectArray[project];
+            };
+        };
+    }
+
+     // create new project
+     addProject(name, id) {
+        // Build new project DOM element 
+        const localManipulator = new Manipulator();
+        const newProject = localManipulator.createProject(name, id);
+
+        this.addProjectToArray(id, name);
+
+        // add remove functionalty to the newly created project
+        newProject.lastChild.addEventListener('click', () => {
+
+            // modify current active project info
+            this.showProejctRelatedTasks("000");
+            this.showActiveProject("000", "No Project selected");
+
+            // remove the project from the GUI
+            this.removeProject(id);
+
+            // remove all tasks related to the project from the list
+            this.cleanTasklistFromRemovedProejctTasks(id);
+
+        });
+
+        // add functionality if the main body of the project is clicked
+        newProject.firstChild.addEventListener('click', () => {
+
+            // show the active project name and id on the active tasks header
+            this.showActiveProject(id, name);
+
+            // filter tasks by project id and show only related projects
+            this.showProejctRelatedTasks(id);
+
+        });
+
+        // Add new project to the DOM
+        document.getElementById('projects').prepend(newProject);
+    };
+
+
+
+    // remove current project
+    removeProject(id) {
+        document.getElementById('projects').removeChild(document.getElementById(id));
+    };
+
+
+    // show project related tasks
+    showActiveProject(projectId, projectName) {
+
+        // update shown active project info 
+        const _activeTitle = document.getElementById('activeProjectTitle')
+        _activeTitle.innerHTML = projectName;
+        _activeTitle.dataset.activeprojectid = projectId;
+
+        // set active project info
+        this.activeProjectTitle = projectName;
+        this.activeProjectId = projectId;
+    }
+
 
     // Show project related tasks only
     showProejctRelatedTasks(projectId) {
@@ -191,63 +317,6 @@ export class App {
             };
         };
 
-    }
-
-    // create new project
-    addProject(name, id) {
-        // Build new project DOM element 
-        const localManipulator = new Manipulator();
-        const newProject = localManipulator.createProject(name, id);
-
-        // add remove functionalty to the newly created project
-        newProject.lastChild.addEventListener('click', () => {
-
-            // modify current active project info
-            this.showProejctRelatedTasks("000");
-            this.showActiveProject("000", "No Project selected");
-
-            // remove the project from the GUI
-            this.removeProject(id);
-
-            // remove all tasks related to the project from the list
-            this.cleanTasklistFromRemovedProejctTasks(id);
-
-        });
-
-        // add functionality if the main body of the project is clicked
-        newProject.firstChild.addEventListener('click', () => {
-
-            // show the active project name and id on the active tasks header
-            this.showActiveProject(id, name);
-
-            // filter tasks by project id and show only related projects
-            this.showProejctRelatedTasks(id);
-
-        });
-
-        // Add new project to the DOM
-        document.getElementById('projects').prepend(newProject);
-    };
-
-
-
-    // remove current project
-    removeProject(id) {
-        document.getElementById('projects').removeChild(document.getElementById(id));
-    };
-
-
-    // show project related tasks
-    showActiveProject(projectId, projectName) {
-
-        // update shown active project info 
-        const _activeTitle = document.getElementById('activeProjectTitle')
-        _activeTitle.innerHTML = projectName;
-        _activeTitle.dataset.activeprojectid = projectId;
-
-        // set active project info
-        this.activeProjectTitle = projectName;
-        this.activeProjectId = projectId;
     }
 
 
