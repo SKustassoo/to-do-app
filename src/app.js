@@ -151,14 +151,16 @@ export class App {
         const acceptButton = document.getElementById('AcceptButton');
 
         acceptButton.addEventListener('click', (elem) => {
-            const taskContent = document.getElementById('taskForm').firstChild.value
+            //get info form form
+            const taskContent = document.getElementById('taskForm')[0].value;
+            const taskDate = document.getElementById('taskForm')[1].value;
+
             // add new project to the list
-            this.addTask(this.generateId(), taskContent, "17/04/2023",  this.activeProjectId);
-            this.appendtaskToList(this.generateId(), taskContent, "17/04/2023",  this.activeProjectId);
+            this.addTask(this.generateId(), taskContent, taskDate, this.activeProjectId);
+            this.appendtaskToList(this.generateId(), taskContent, taskDate, this.activeProjectId);
             // remove form from gui
             document.getElementById('taskFormArea').remove();
         });
-
     }
 
 

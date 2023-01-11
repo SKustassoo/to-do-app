@@ -183,10 +183,17 @@ export class Manipulator {
         taskFormArea.classList.add('dp02');
         taskFormArea.classList.add('formCard');
 
+
         const taskForm = document.createElement('form');
         taskForm.setAttribute('id', 'taskForm');
+        // field to ask for task text content
         const taskNameArea = document.createElement('input');
         taskForm.appendChild(taskNameArea);
+
+        // field to ask for task date
+        const taskDateArea = document.createElement('input');
+        taskDateArea.setAttribute('type', 'date');
+        taskForm.appendChild(taskDateArea);
 
         const acceptButton = this.createButton("Create new","AcceptButton");
         const cancelButton = this.createButton("Cancel","CancelButton");
