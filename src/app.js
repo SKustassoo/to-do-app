@@ -176,12 +176,6 @@ export class App {
 
         // formats today date
         const currentDate = new Date();
-
-       // let day = new Date(timeElapsed).getDate();
-       // let month = new Date(timeElapsed).getMonth()+1;
-       // const year = new Date(timeElapsed).getFullYear();
-
-
         let dayOfWeek = currentDate.getDay();
         let weekFirstDate = currentDate.getDate() - dayOfWeek+1;
         let weekLastDate = currentDate.getDate() + (8 - dayOfWeek);
@@ -207,12 +201,20 @@ export class App {
 
         // add remove functionalty to the newly created project
         newProject.lastChild.addEventListener('click', () => {
+
+            // modify current active project info
             this.showProejctRelatedTasks("000");
             this.showActiveProject("000", "No Project selected");
+
+            // remove the project from the GUI
             this.removeProject(id);
+
+            // remove all tasks related to the project from the list
+            this.cleanTasklistFromRemovedProejctTasks(id);
+
         });
 
-        // add fucntionality if the main body of the project is clicked
+        // add functionality if the main body of the project is clicked
         newProject.firstChild.addEventListener('click', () => {
 
             // show the active project name and id on the active tasks header
@@ -297,6 +299,7 @@ export class App {
     }
 
 
+    // used to remove single task form the tasklist
     removeTask(id) {
         // remove task from the taskList
         for (let task = 0; task < this.taskList.length; ++task) {
@@ -305,8 +308,24 @@ export class App {
             };
         };
 
-        // remove task dfrom the gui
+        // remove task from the gui
         document.getElementById('tasksInProgress').removeChild(document.getElementById(id));
+    };
+
+    // used to remove all tasks fromt he taskList when a project is deleted
+    cleanTasklistFromRemovedProejctTasks(projectId) {
+
+        let _localtaskList = [];
+
+        // remove task from the taskList
+        for (let task = 0; task < this.taskList.length; ++task) {
+            if (this.taskList[task].project != projectId) {
+                _localtaskList.push(this.taskList[task]);
+            };
+        };
+
+        // update tasklist
+        this.taskList = _localtaskList;
     };
 }
 
