@@ -162,6 +162,7 @@ export class Manipulator {
         const projectForm = document.createElement('form');
         projectForm.setAttribute('id', 'projectForm');
         const projectNameArea = document.createElement('input');
+        projectNameArea.setAttribute('id', 'projectFormnameArea')
         projectForm.appendChild(projectNameArea);
 
         const acceptButton = this.createButton("Create new", "AcceptButton");

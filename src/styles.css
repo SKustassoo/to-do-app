@@ -167,6 +167,9 @@ input {
     padding: 0.3rem 0.6rem;
 }
 
+#projectFormnameArea {
+    width: calc(100% - 1.2rem);
+}
 
 input[type="date"] {
     width: 8rem;
