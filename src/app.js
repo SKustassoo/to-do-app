@@ -18,8 +18,9 @@ export class App {
         let toDoTaskApp = new Manipulator();
 
         // adds default project into the main app layout
-        toDoTaskApp.mainAppFrameBuilder(localStorage.getItem('activeProjectTitle'), localStorage.getItem('activeProjectId'));
+        toDoTaskApp.mainAppFrameBuilder();
         this.addProject(localStorage.getItem('activeProjectTitle'), localStorage.getItem('activeProjectId'));
+        this.showActiveProject(localStorage.getItem('activeProjectId'),localStorage.getItem('activeProjectTitle'));
     };
 
     
@@ -46,7 +47,7 @@ export class App {
 
             // search local storage for projects
             if (!localStorage.getItem('projectList')) {
-                this.addProjectToArray(localStorage.getItem('activeProjectId'),localStorage.getItem('activeProjectTitle') )
+                this.addProjectToArray(localStorage.getItem('activeProjectId'),localStorage.getItem('activeProjectTitle'));
                 localStorage.setItem('projectList', JSON.stringify(this.projectList));
                 //localStorage.getItem('activeProjectTitle');
             } else {
@@ -94,7 +95,7 @@ export class App {
         return Date.now();
     };
 
-
+//------------------------------------------------------------------------------------PROJECTS------------------------------------------------------------------------------------
     // Project form building template 
     projectForm() {
 
@@ -206,7 +207,6 @@ export class App {
         document.getElementById('projects').removeChild(document.getElementById(id));
     };
 
-
     // show project related tasks
     showActiveProject(projectId, projectName) {
 
@@ -216,10 +216,11 @@ export class App {
         _activeTitle.dataset.activeprojectid = projectId;
 
         // set active project info
-        this.activeProjectTitle = projectName;
-        this.activeProjectId = projectId;
+        localStorage.setItem('activeProjectTitle', projectName);
+        localStorage.setItem('activeProjectId', projectId);
     }
 
+//---------------------------------------------------------------------------------------TASKS----------------------------------------------------------------
 
     // Show project related tasks only
     showProejctRelatedTasks(projectId) {
