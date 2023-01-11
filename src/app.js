@@ -9,10 +9,12 @@ export class App {
     taskList = [];
     
 
+    // builds orignal app layout
     buildAppFrame() {
         let toDoTaskApp = new Manipulator();
         this.activeProjectId = this.generateId();
 
+        // adds default project into the main app layout
         toDoTaskApp.mainAppFrameBuilder(this.activeProjectTitle, this.activeProjectId);
         this.addProject(this.activeProjectTitle, this.activeProjectId);
     };
@@ -21,30 +23,30 @@ export class App {
     // set event listeners after initial build
     setListening(){
 
-        // to add new projects
+        // to add new projects to the add new project button
         document.getElementById('addProject').addEventListener('click', () => { 
             this.projectForm();
         });
 
-        // add new task
+        // add new task listener to the add new task button
         document.getElementById('addTaskButton').addEventListener('click', () => { 
             this.taskForm();
         });
 
-
-        // show all tasks
+        // show all tasks to the show all proejct button
         document.getElementById('allButton').addEventListener('click', () => { 
             this.showAllTasks();
         });
 
-        // show today tasks
+        // show today tasks to the show today tasks button
         document.getElementById('todayButton').addEventListener('click', () => { 
             this.showTodayTasks();
         });
 
-
-        
- 
+        // show this week tasks to the show this week tasks button
+        document.getElementById('thisWeekButton').addEventListener('click', () => { 
+            this.showWeekTasks();
+        });
     }
     
 
@@ -54,122 +56,177 @@ export class App {
     };
 
 
-    // Project form building template
+    // Project form building template 
     projectForm() {
 
-        // Build new form from manipulator
+        // Builds new form using DOM manipulator
         let localAppForm = new Manipulator().createProjectForm();
         document.getElementById('projects').appendChild(localAppForm);
 
-        // accept button functionality
+        // Adds accept button functionality
         const acceptButton = document.getElementById('AcceptButton');
         acceptButton.addEventListener('click', (elem) => {
 
-            // get the project title element from dom
+            // get the project title element from DOM
             const projectName = document.getElementById('projectForm').firstChild.value
 
-            // add new project to the list
-            this.addProject(projectName, this.generateId());
+            // add new project to the list in the GUI
+            const _projectId = this.generateId();
+            this.addProject(projectName, _projectId);
 
-            // remove form from gui
+            // set active project
+            this.showActiveProject(_projectId, projectName);
+
+            // show active project tasks
+            this.showProejctRelatedTasks(_projectId);
+
+            // remove form from GUI
             document.getElementById('projectFormArea').remove();
 
         });
 
-        // cancel button functionality
+        // Adds cancel button functionality
         const cancelButton = document.getElementById('CancelButton');
+
+        // Removes project from the GUI
         cancelButton.addEventListener('click', () => {
             document.getElementById('projectFormArea').remove();
-
-
-
         });
 
     }
 
-    // show project related tasks only
+    // Show project related tasks only
     showProejctRelatedTasks(projectId) {
+
+        // reset shown tasks
         document.getElementById('tasksInProgress').innerHTML = "";
 
-        console.log('read project related tasks from the taskList and show them');
-
+        // loop trough the app tasklist array and show render all tasks taht are related to a certain project
         for (let task = 0; task < this.taskList.length; ++task) {
             if (this.taskList[task].project == projectId) {
                 this.addTask(this.taskList[task].id, this.taskList[task].content, this.taskList[task].date , this.taskList[task].project );
-                
             };
         };
     };
 
-
+    // Show all tasks taht are in the tasks list
     showAllTasks(){
-        console.log("showing all tasks");
+
+        // Set the tasks section title
+        activeProjectTitle = "All tasks";
+        document.getElementById("activeProjectTitle").innerHTML = activeProjectTitle;
         document.getElementById('tasksInProgress').innerHTML = "";
 
+        // loop trough the tasklist and render all tasks
         for (let task = 0; task < this.taskList.length; ++task) {
                 this.addTask(this.taskList[task].id, this.taskList[task].content, this.taskList[task].date , this.taskList[task].project );
         };
     };
 
+    // Show tasks that share todays date
     showTodayTasks(){
+
+        // Set the tasks section title
+        activeProjectTitle = "Today tasks";
+        document.getElementById("activeProjectTitle").innerHTML = activeProjectTitle;
         document.getElementById('tasksInProgress').innerHTML = "";
-        console.log('show tasks wehre date is today');
 
+        document.getElementById('tasksInProgress').innerHTML = "";
+        console.log('show tasks where date is today');
+
+        // formats today date
         const timeElapsed = Date.now();
-
         let today = "";
         let day = new Date(timeElapsed).getDate();
         let month = new Date(timeElapsed).getMonth()+1; 
         const year = new Date(timeElapsed).getFullYear();
 
+        // adds 0 in front of single digit months
         if (String(month).length == 1) {
             month = "0"+month
         }
 
+        // adds 0 in front of single digit days
         if (String(day).length == 1) {
             day = "0"+day
         }
 
         today = year+"-"+month+"-"+day;
 
-        console.log(today);
-
+        // loops trough all tasks to render tasks that share a date = today
         for (let task = 0; task < this.taskList.length; ++task) {
             if (this.taskList[task].date == today) {
                 this.addTask(this.taskList[task].id, this.taskList[task].content, this.taskList[task].date , this.taskList[task].project );
-                
+            };
+        };
+    }
+
+
+    // show tasks that date is on current week
+    showWeekTasks() {
+
+        // Set the tasks section title
+        activeProjectTitle = "This week tasks";
+        document.getElementById("activeProjectTitle").innerHTML = activeProjectTitle;
+        document.getElementById('tasksInProgress').innerHTML = "";
+
+        document.getElementById('tasksInProgress').innerHTML = "";
+        console.log('show tasks where date is in this week');
+
+
+        // formats today date
+        const currentDate = new Date();
+
+       // let day = new Date(timeElapsed).getDate();
+       // let month = new Date(timeElapsed).getMonth()+1;
+       // const year = new Date(timeElapsed).getFullYear();
+
+
+        let dayOfWeek = currentDate.getDay();
+        let weekFirstDate = currentDate.getDate() - dayOfWeek+1;
+        let weekLastDate = currentDate.getDate() + (8 - dayOfWeek);
+
+        console.log(dayOfWeek);
+        console.log(weekFirstDate);
+        console.log(weekLastDate);
+
+        // loops trough all tasks to render tasks that share a date = in this week
+        for (let task = 0; task < this.taskList.length; ++task) {
+            if (this.taskList[task].date.split('-')[2] >= weekFirstDate && this.taskList[task].date.split('-')[2] <= weekLastDate) {
+                this.addTask(this.taskList[task].id, this.taskList[task].content, this.taskList[task].date , this.taskList[task].project );
             };
         };
 
     }
 
-
     // create new project
     addProject(name, id) {
-        // new project DOM element
+        // Build new project DOM element 
         const localManipulator = new Manipulator();
         const newProject = localManipulator.createProject(name, id);
 
-        // new 
-        document.getElementById('projects').prepend(newProject);
+        // add remove functionalty to the newly created project
         newProject.lastChild.addEventListener('click', () => {
+            this.showProejctRelatedTasks("000");
+            this.showActiveProject("000", "No Project selected");
             this.removeProject(id);
-            if (id == activeProjectId) {
-                activeProjectTitle = "";
-                activeProjectId = "";
-            }
-
         });
-        newProject.addEventListener('click', () => {
 
-            // show the active prject name and id on the active tasks header
+        // add fucntionality if the main body of the project is clicked
+        newProject.firstChild.addEventListener('click', () => {
+
+            // show the active project name and id on the active tasks header
             this.showActiveProject(id, name);
 
             // filter tasks by project id and show only related projects
             this.showProejctRelatedTasks(id);
 
         });
+
+        // Add new project to the DOM
+        document.getElementById('projects').prepend(newProject);
     };
+
 
 
     // remove current project
@@ -213,6 +270,7 @@ export class App {
             // add new project to the list
             this.addTask(this.generateId(), taskContent, taskDate, this.activeProjectId);
             this.appendtaskToList(this.generateId(), taskContent, taskDate, this.activeProjectId);
+
             // remove form from gui
             document.getElementById('taskFormArea').remove();
         });
@@ -249,8 +307,6 @@ export class App {
 
         // remove task dfrom the gui
         document.getElementById('tasksInProgress').removeChild(document.getElementById(id));
-        
     };
-    
 }
 
