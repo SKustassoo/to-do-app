@@ -78,11 +78,10 @@ export class App {
         document.getElementById('tasksInProgress').innerHTML = "";
 
         console.log('read project related tasks from the taskList and show them');
-        //console.log(this.taskList);
 
         for (let task = 0; task < this.taskList.length; ++task) {
             if (this.taskList[task].project == projectId) {
-                this.addTask(this.taskList[task].id, this.taskList[task].content , this.taskList[task].date , this.taskList[task].project );
+                this.addTask(this.taskList[task].id, this.taskList[task].content, this.taskList[task].date , this.taskList[task].project );
                 
             };
         };
@@ -155,6 +154,7 @@ export class App {
             const taskContent = document.getElementById('taskForm').firstChild.value
             // add new project to the list
             this.addTask(this.generateId(), taskContent, "17/04/2023",  this.activeProjectId);
+            this.appendtaskToList(this.generateId(), taskContent, "17/04/2023",  this.activeProjectId);
             // remove form from gui
             document.getElementById('taskFormArea').remove();
         });
@@ -173,11 +173,13 @@ export class App {
             this.removeTask(id);
         });
 
-        // push the new task into the taskList
+    };
+
+    // push the new task into the taskList
+    appendtaskToList(id, content, date, project){
         const _taskInfo = {id, content, date, project};
         this.taskList.push(_taskInfo);
-
-    };
+    }
 
 
     removeTask(id) {
