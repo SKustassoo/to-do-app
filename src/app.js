@@ -13,13 +13,12 @@ export class App {
 
     // builds orignal app layout
     buildAppFrame() {
-
-        this.useLocalStorage();
         let toDoTaskApp = new Manipulator();
 
         // adds default project into the main app layout
         toDoTaskApp.mainAppFrameBuilder();
-        this.addProject(localStorage.getItem('activeProjectTitle'), localStorage.getItem('activeProjectId'));
+        this.useLocalStorage();
+        //this.addProject(localStorage.getItem('activeProjectTitle'), localStorage.getItem('activeProjectId'));
         this.showActiveProject(localStorage.getItem('activeProjectId'),localStorage.getItem('activeProjectTitle'));
     };
 
@@ -48,10 +47,17 @@ export class App {
             // search local storage for projects
             if (!localStorage.getItem('projectList')) {
                 this.addProjectToArray(localStorage.getItem('activeProjectId'),localStorage.getItem('activeProjectTitle'));
-                localStorage.setItem('projectList', JSON.stringify(this.projectList));
+                let _projectArray = this.readProejctsFromArray();
+                this.addProject(_projectArray[0].projectName,_projectArray[0].projectId);
+                //localStorage.setItem('projectList', JSON.stringify(this.projectList));
                 //localStorage.getItem('activeProjectTitle');
             } else {
-                //localStorage.getItem('activeProjectTitle');
+                //RENDER ALL PROJECTS TO THE GUI
+                let _projectArray = this.readProejctsFromArray();
+
+                for (let project = 0; project < _projectArray.length; project++) {
+                    this.addProject(_projectArray[project].projectName, _projectArray[project].projectId);
+                };
             };
 
         } else {
@@ -101,42 +107,64 @@ export class App {
 
         // Builds new form using DOM manipulator
         let localAppForm = new Manipulator().createProjectForm();
+        let _projectId = this.generateId();
+
         document.getElementById('projects').appendChild(localAppForm);
 
         // Adds accept button functionality
         const acceptButton = document.getElementById('AcceptButton');
         acceptButton.addEventListener('click', (elem) => {
 
-            // get the project title element from DOM
-            const projectName = document.getElementById('projectForm').firstChild.value
+            // get the project title and generate id for new proejct
+            const _projectName = document.getElementById('projectForm').firstChild.value;
+
 
             // add new project to the list in the GUI
-            const _projectId = this.generateId();
-            this.addProject(projectName, _projectId);
+            this.addProject(_projectName, _projectId);
 
-            // set active project
-            this.showActiveProject(_projectId, projectName);
+            // add project to the app array
+            this.addProjectToArray(_projectId, _projectName);
+
+            // set active project in the app 
+            this.showActiveProject(_projectId, _projectName);
 
             // show active project tasks
             this.showProejctRelatedTasks(_projectId);
 
-            // remove form from GUI
+            // remove the form from the GUI
             document.getElementById('projectFormArea').remove();
 
         });
 
         // Adds cancel button functionality
         const cancelButton = document.getElementById('CancelButton');
-
-        // Removes project from the GUI
         cancelButton.addEventListener('click', () => {
+
+            // Removes project from the GUI
             document.getElementById('projectFormArea').remove();
+
         });
+    };
 
-        // remove the project from the storage list
-        this.getProejctFromProjectArray(this.readProejctsFromArray(), _projectId);
 
-    }
+    removeProject(id, projectList) {
+        console.log("removing projecct form list:" + projectList)
+
+        // remove from GUI
+        document.getElementById('projects').removeChild(document.getElementById(id));
+
+
+        // remove project from the projectList
+        for (let project = 0; project < projectList.length; project++) {
+            if (projectList[project].projectId == id) {
+                projectList.splice(projectList.indexOf(projectList[project]), 1)
+            };
+        };
+
+        localStorage.setItem('projectList', JSON.stringify(projectList));
+
+    };
+
 
     // add new task to the list
     addProjectToArray(projectId, projectName) {
@@ -146,12 +174,16 @@ export class App {
         localStorage.setItem('projectList', JSON.stringify(this.projectList));
     };
 
+
     readProejctsFromArray() {
-        // Retrieve the array from local storage
-        var _array = localStorage.getItem('projectList');
-        // Parse it to something usable in js
-        return JSON.parse(_array);
+        if (!localStorage.getItem('projectList')) {
+            this.addProjectToArray(localStorage.getItem('activeProjectId'),localStorage.getItem('activeProjectTitle'));
+        } else {
+            var _array = localStorage.getItem('projectList');
+            return JSON.parse(_array);
+        };
     };
+
 
     getProejctFromProjectArray(projectArray, projectId) {
         // loop trough the app projects array and returned project object
@@ -162,26 +194,29 @@ export class App {
         };
     }
 
+
      // create new project
      addProject(name, id) {
         // Build new project DOM element 
         const localManipulator = new Manipulator();
         const newProject = localManipulator.createProject(name, id);
 
-        this.addProjectToArray(id, name);
 
         // add remove functionalty to the newly created project
         newProject.lastChild.addEventListener('click', () => {
 
-            // modify current active project info
+            // set active project info to null
             this.showProejctRelatedTasks("000");
             this.showActiveProject("000", "No Project selected");
 
-            // remove the project from the GUI
-            this.removeProject(id);
+
+            // remove project from the list
+            let _projectsList = this.readProejctsFromArray();
+            this.removeProject(id, _projectsList);
 
             // remove all tasks related to the project from the list
             this.cleanTasklistFromRemovedProejctTasks(id);
+
 
         });
 
@@ -200,12 +235,6 @@ export class App {
         document.getElementById('projects').prepend(newProject);
     };
 
-
-
-    // remove current project
-    removeProject(id) {
-        document.getElementById('projects').removeChild(document.getElementById(id));
-    };
 
     // show project related tasks
     showActiveProject(projectId, projectName) {
@@ -235,6 +264,16 @@ export class App {
             };
         };
     };
+
+
+    // add new task to the list
+    addTaskToArray(taskId, taskContent, projectId, date) {
+        const _taskInfo = {taskId, taskContent, projectId, date};
+        this.taskList.push(_taskInfo);
+
+        localStorage.setItem('taskList', JSON.stringify(this.taskList));
+    };
+    
 
     // Show all tasks taht are in the tasks list
     showAllTasks(){
@@ -341,7 +380,7 @@ export class App {
 
             // add new project to the list
             this.addTask(this.generateId(), taskContent, taskDate, this.activeProjectId);
-            this.appendtaskToList(this.generateId(), taskContent, taskDate, this.activeProjectId);
+            this.addTaskToArray(this.generateId(), taskContent, localStorage.getItem('activeProjectId'), taskDate);
 
             // remove form from gui
             document.getElementById('taskFormArea').remove();
@@ -362,12 +401,6 @@ export class App {
 
     };
 
-    // push the new task into the taskList
-    appendtaskToList(id, content, date, project){
-        const _taskInfo = {id, content, date, project};
-        this.taskList.push(_taskInfo);
-    }
-
 
     // used to remove single task form the tasklist
     removeTask(id) {
@@ -381,6 +414,7 @@ export class App {
         // remove task from the gui
         document.getElementById('tasksInProgress').removeChild(document.getElementById(id));
     };
+
 
     // used to remove all tasks fromt he taskList when a project is deleted
     cleanTasklistFromRemovedProejctTasks(projectId) {
